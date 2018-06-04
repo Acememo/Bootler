@@ -7,8 +7,23 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import numpy as np
+import pyqtgraph as pg
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QSize
+
+############### For debuging ##################
+global devID
+devID = "Temperature"
+global daTx
+daTx = np.random.normal(size=(10,1000))
+###############################################
+
+global gCount
+gCount = 0
 
 class Ui_MainWindow(object):
+    global daTx
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(109, 431)
@@ -20,7 +35,7 @@ class Ui_MainWindow(object):
         MainWindow.setMinimumSize(QtCore.QSize(109, 431))
         MainWindow.setMaximumSize(QtCore.QSize(109, 431))
         MainWindow.setWindowTitle("")
-        MainWindow.setStyleSheet("Fusion")
+        MainWindow.setStyleSheet("background-color:#dccdc;")
 
         
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -30,30 +45,40 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
 
-        
-        self.widget_2 = QtWidgets.QWidget(self.centralwidget)
-        self.widget_2.setMinimumSize(QtCore.QSize(91, 91))
-        self.widget_2.setMaximumSize(QtCore.QSize(91, 91))
-        self.widget_2.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.widget_2.setObjectName("widget_2")
+# Bootler Button
+# widget and button
+
+        self.widget_bootbtn = QtWidgets.QWidget(self.centralwidget)
+        self.widget_bootbtn.setMinimumSize(QtCore.QSize(91, 91))
+        self.widget_bootbtn.setMaximumSize(QtCore.QSize(91, 91))
+        self.widget_bootbtn.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.widget_bootbtn.setObjectName("widget_bootbtn")
 
         
-        self.pushButton = QtWidgets.QPushButton(self.widget_2)
-        self.pushButton.setGeometry(QtCore.QRect(0, 0, 91, 91))
-        self.pushButton.setMinimumSize(QtCore.QSize(91, 91))
-        self.pushButton.setMaximumSize(QtCore.QSize(91, 91))
-        self.pushButton.setText("")
-        self.pushButton.setObjectName("pushButton")
+        self.bootButton = QtWidgets.QPushButton(self.widget_bootbtn)
+        self.bootButton.setGeometry(QtCore.QRect(0, 0, 91, 91))
+        self.bootButton.setMinimumSize(QtCore.QSize(91, 91))
+        self.bootButton.setMaximumSize(QtCore.QSize(91, 91))
+        self.bootButton.setText("")
+        self.bootButton.setObjectName("bootButton")
+        self.bootButton.setIcon(QIcon('pic.png'))
+        self.bootButton.setIconSize(QSize(65,65));
+        self.bootButton.setStyleSheet("background-color:#cdc9c9;");
 
         
-        self.verticalLayout.addWidget(self.widget_2, 0, QtCore.Qt.AlignHCenter)
+        self.verticalLayout.addWidget(self.widget_bootbtn, 0, QtCore.Qt.AlignHCenter)
+
+# End of Bootler Button
 
         
         spacerItem = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
 
         
         self.verticalLayout.addItem(spacerItem)
-
+        
+# Temperature Button
+# widget and button
+# its widget_3 > widget > tempButton
         
         self.widget_3 = QtWidgets.QWidget(self.centralwidget)
         self.widget_3.setMinimumSize(QtCore.QSize(91, 91))
@@ -70,16 +95,23 @@ class Ui_MainWindow(object):
         self.widget.setObjectName("widget")
 
         
-        self.pushButton_2 = QtWidgets.QPushButton(self.widget)
-        self.pushButton_2.setGeometry(QtCore.QRect(0, 0, 91, 91))
-        self.pushButton_2.setMinimumSize(QtCore.QSize(91, 91))
-        self.pushButton_2.setMaximumSize(QtCore.QSize(91, 91))
-        self.pushButton_2.setStyleSheet("")
-        self.pushButton_2.setText("")
-        self.pushButton_2.setObjectName("pushButton_2")
+        self.tempButton = QtWidgets.QPushButton(self.widget)
+        self.tempButton.setGeometry(QtCore.QRect(0, 0, 91, 91))
+        self.tempButton.setMinimumSize(QtCore.QSize(91, 91))
+        self.tempButton.setMaximumSize(QtCore.QSize(91, 91))
+        self.tempButton.setStyleSheet("")
+        self.tempButton.setText("")
+        self.tempButton.setObjectName("tempButton")
+        self.tempButton.setIcon(QIcon('tmp.png'))
+        self.tempButton.setIconSize(QSize(65,65));
+        self.tempButton.setCheckable(True)
+        self.tempButton.clicked.connect(self.temp_Clicked)
+        self.tempButton.setStyleSheet("background-color:#cdc9c9;;");
 
         
         self.verticalLayout.addWidget(self.widget_3, 0, QtCore.Qt.AlignHCenter)
+
+# End Temperature Button
 
         
         spacerItem1 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
@@ -87,6 +119,8 @@ class Ui_MainWindow(object):
         
         self.verticalLayout.addItem(spacerItem1)
 
+# Luminesence Button
+# widget and button
         
         self.widget_4 = QtWidgets.QWidget(self.centralwidget)
         self.widget_4.setMinimumSize(QtCore.QSize(91, 91))
@@ -95,15 +129,20 @@ class Ui_MainWindow(object):
         self.widget_4.setObjectName("widget_4")
 
         
-        self.pushButton_3 = QtWidgets.QPushButton(self.widget_4)
-        self.pushButton_3.setGeometry(QtCore.QRect(0, 0, 91, 91))
-        self.pushButton_3.setMinimumSize(QtCore.QSize(91, 91))
-        self.pushButton_3.setMaximumSize(QtCore.QSize(91, 91))
-        self.pushButton_3.setText("")
-        self.pushButton_3.setObjectName("pushButton_3")
+        self.lumiButton = QtWidgets.QPushButton(self.widget_4)
+        self.lumiButton.setGeometry(QtCore.QRect(0, 0, 91, 91))
+        self.lumiButton.setMinimumSize(QtCore.QSize(91, 91))
+        self.lumiButton.setMaximumSize(QtCore.QSize(91, 91))
+        self.lumiButton.setText("")
+        self.lumiButton.setObjectName("lumiButton")
+        self.lumiButton.setIcon(QIcon('depth.png'))
+        self.lumiButton.setIconSize(QSize(65,65));
+        self.lumiButton.setStyleSheet("background-color:#cdc9c9;;");
 
         
         self.verticalLayout.addWidget(self.widget_4, 0, QtCore.Qt.AlignHCenter)
+
+# End Luminesence Button
 
         
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
@@ -149,6 +188,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
 
+# Auto managment layout
         
         self.auto_OFF = QtWidgets.QRadioButton(self.centralwidget)
 
@@ -217,6 +257,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.auto_ON, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout.addLayout(self.horizontalLayout)
 
+# End of Auto Management layout
         
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -233,6 +274,51 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Off"))
         self.label.setText(_translate("MainWindow", "Auto"))
         self.label_3.setText(_translate("MainWindow", "On"))
+    
+    def update():
+        global curve, data, ptr, p6
+        curve.setData(data[ptr%10])
+        if ptr == 0:
+            p6.enableAutoRange('xy', False)  ## stop auto-scaling after the first data set is plotted
+        ptr += 1
+
+    def temp_Clicked(self):
+        global gCount
+        if gCount == 0:
+            self.make_Ugraph_window(devID)
+            gCount += 1
+        else:
+            update_Ugraph_window()
+            gCount += 1
+        if self.tempButton.isChecked:
+            self.tempButton.setChecked(False)
+            if gCount == 1:
+                self.kill_Ugraph_window()
+        else:
+            self.tempButton.setChecked(True)
+
+    def make_Ugraph_window(self, devID):
+        self.win = pg.GraphicsWindow(title="Graphics")
+        self.win.resize(800,600)
+        self.win.setWindowTitle('Plotting sensor '+devID)
+
+    def update_Ugraph_window():
+        if gCount < 2:
+            self.win.resize(800,1200)
+        else:
+            self.win.resize(800,600)
+            
+    def kill_Ugraph_window(self):
+            self.win.hide
+        
+    def call_Ugraph(devID, daTx):
+        p6 = self.win.addPlot(title="Sensor "+devID)
+        curve = p6.plot(pen='y')
+        data = daTx
+        ptr = 0
+        timer = QtCore.QTimer()
+        timer.timeout.connect(update)
+        timer.start(50)
 
 
 if __name__ == "__main__":
