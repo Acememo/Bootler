@@ -17,10 +17,14 @@ global devID
 devID = "Temperature"
 global daTx
 daTx = np.random.normal(size=(10,1000))
+global curve,data,ptr
+data = daTx
+ptr = 0
 ###############################################
 
 global gCount
 gCount = 0
+
 
 class Ui_MainWindow(object):
     global daTx
@@ -275,12 +279,7 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Auto"))
         self.label_3.setText(_translate("MainWindow", "On"))
     
-    def update():
-        global curve, data, ptr, p6
-        curve.setData(data[ptr%10])
-        if ptr == 0:
-            p6.enableAutoRange('xy', False)  ## stop auto-scaling after the first data set is plotted
-        ptr += 1
+
 
     def temp_Clicked(self):
         global gCount
@@ -298,9 +297,11 @@ class Ui_MainWindow(object):
             self.tempButton.setChecked(True)
 
     def make_Ugraph_window(self, devID):
+        global daTx
         self.win = pg.GraphicsWindow(title="Graphics")
         self.win.resize(800,600)
         self.win.setWindowTitle('Plotting sensor '+devID)
+        self.call_Ugraph(devID, daTx)
 
     def update_Ugraph_window():
         if gCount < 2:
@@ -309,16 +310,32 @@ class Ui_MainWindow(object):
             self.win.resize(800,600)
             
     def kill_Ugraph_window(self):
-            self.win.hide
+            try:
+                self.win.hide
+            except Exception as e:
+                print(str(e))
+    def call_Ugraph(self, devID, daTx):
+        global curve,data,ptr
+        global p6
+        try:
+            p6 = self.win.addPlot(title="Sensor "+devID)
+            curve = p6.plot(pen='y')
+            data = daTx
+            ptr = 0
+            timer = QtCore.QTimer()
+            timer.timeout.connect(self.update)
+            timer.start(50)
+            p6.plot(daTx)
+        except Exception as e:
+            print(str(e))
         
-    def call_Ugraph(devID, daTx):
-        p6 = self.win.addPlot(title="Sensor "+devID)
-        curve = p6.plot(pen='y')
-        data = daTx
-        ptr = 0
-        timer = QtCore.QTimer()
-        timer.timeout.connect(update)
-        timer.start(50)
+    def update():
+       global curve, data, ptr, p6,daTx
+       daTx = np.random.normal(size=(10,1000))
+       curve.setData(data[ptr%10])
+       if ptr == 0:
+           p6.enableAutoRange('xy', False)  ## stop auto-scaling after the first data set is plotted
+       ptr += 1
 
 
 if __name__ == "__main__":
@@ -329,4 +346,6 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+
+
 
