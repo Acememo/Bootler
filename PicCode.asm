@@ -17,22 +17,22 @@ rxb	    EQU	    0x26
 	    movwf   rxb
 	    xorlw   0x31
 	    btfsc   STATUS,Z
-	    bsf	    PORTB, RB0
+	    bsf	    PORTB,1
 	    xorlw   0x32
 	    btfsc   STATUS,Z
-	    bsf	    PORTB, RB1
+	    bsf	    PORTB,2
 	    xorlw   0x33
 	    btfsc   STATUS,Z
-	    bsf	    PORTB, RB2
+	    bsf	    PORTB,3
 	    xorlw   0x34
 	    btfsc   STATUS,Z
-	    bcf	    PORTB, RB0
+	    bcf	    PORTB,1
 	    xorlw   0x35
 	    btfsc   STATUS,Z
-	    bsf	    PORTB, RB1
+	    bsf	    PORTB,2
 	    xorlw   0x36
 	    btfsc   STATUS,Z
-	    bsf	    PORTB, RB2
+	    bsf	    PORTB,3
 	    movf    rxb,0
 	    call    enviar
 	    movf    w1,0
