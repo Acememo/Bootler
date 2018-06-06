@@ -34,7 +34,7 @@ w1	    EQU	    0x25
 	    call    enviar
 	    movwf   PORTB
 	    bcf	    PIR1,5
-	    movf    w1,0
+	    movwf    w1,0
 	    retfie
 	    
 	
