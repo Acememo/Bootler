@@ -7,12 +7,14 @@ var1	    EQU	    0x22
 var2	    EQU	    0x23
 var3	    EQU	    0x24
 w1	    EQU	    0x25
+rxb	    EQU	    0x26
     
 	    org	    0x00
 	    goto    configura
 	    org	    0x04
 	    movwf    w1
 	    movf    RCREG,0
+	    movwf   rxb
 	    xorlw   0x31
 	    btfsc   STATUS,Z
 	    bsf	    PORTB, RB0
@@ -31,6 +33,8 @@ w1	    EQU	    0x25
 	    xorlw   0x36
 	    btfsc   STATUS,Z
 	    bsf	    PORTB, RB2
+	    movf    rxb,0
+	    call    enviar
 	    movf    w1,0
 	    bcf	    PIR1,5
 	    retfie
