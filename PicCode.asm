@@ -1,4 +1,4 @@
-	    list    p=16F877A
+	   	    list    p=16F877A
 	    include "p16F877A.inc"
 	    __CONFIG _FOSC_XT & _WDTE_OFF & _PWRTE_OFF & _CP_OFF
 conta1	    EQU	    0x20
@@ -11,6 +11,24 @@ var3	    EQU	    0x24
 	    goto    configura
 	    org	    0x04
 	    movf    RCREG,0
+	    xorlw   0x31
+	    btfss   STATUS,Z
+	    bsf	    PORTB, RB0
+	    xorlw   0x32
+	    btfss   STATUS,Z
+	    bsf	    PORTB, RB1
+	    xorlw   0x33
+	    btfss   STATUS,Z
+	    bsf	    PORTB, RB2
+	    xorlw   0x34
+	    btfss   STATUS,Z
+	    bcf	    PORTB, RB0
+	    xorlw   0x35
+	    btfss   STATUS,Z
+	    bsf	    PORTB, RB1
+	    xorlw   0x36
+	    btfss   STATUS,Z
+	    bsf	    PORTB, RB2
 	    call    enviar
 	    movwf   PORTB
 	    bcf	    PIR1,5
@@ -37,6 +55,7 @@ configura   bsf	    STATUS,RP0    ; PASAR AL BANCO 1
 	    bsf	    INTCON,GIE
 	    bsf	    INTCON,PEIE
 	    clrf    PORTB
+	    
 	    
 configura2  movlw   0x54
 	    call    enviar
@@ -133,4 +152,7 @@ enviar
 	    bcf	    STATUS,RP0	    
 	    return
 	    end
+
+
+
 	    
