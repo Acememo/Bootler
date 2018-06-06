@@ -1,4 +1,4 @@
-	   	    list    p=16F877A
+	    list    p=16F877A
 	    include "p16F877A.inc"
 	    __CONFIG _FOSC_XT & _WDTE_OFF & _PWRTE_OFF & _CP_OFF
 conta1	    EQU	    0x20
