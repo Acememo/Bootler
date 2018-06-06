@@ -12,22 +12,22 @@ var3	    EQU	    0x24
 	    org	    0x04
 	    movf    RCREG,0
 	    xorlw   0x31
-	    btfss   STATUS,Z
+	    btfsc   STATUS,Z
 	    bsf	    PORTB, RB0
 	    xorlw   0x32
-	    btfss   STATUS,Z
+	    btfsc   STATUS,Z
 	    bsf	    PORTB, RB1
 	    xorlw   0x33
-	    btfss   STATUS,Z
+	    btfsc   STATUS,Z
 	    bsf	    PORTB, RB2
 	    xorlw   0x34
-	    btfss   STATUS,Z
+	    btfsc   STATUS,Z
 	    bcf	    PORTB, RB0
 	    xorlw   0x35
-	    btfss   STATUS,Z
+	    btfsc   STATUS,Z
 	    bsf	    PORTB, RB1
 	    xorlw   0x36
-	    btfss   STATUS,Z
+	    btfsc   STATUS,Z
 	    bsf	    PORTB, RB2
 	    call    enviar
 	    movwf   PORTB
