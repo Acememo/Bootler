@@ -52,4 +52,4 @@ if __name__ == '__main__':
     lstTemp = []
     lstLux = []
     lstDist = []
-    main(lstTemp, lstLux, lstDist, Port)
+    main(lstTemp, lstLux, lstDist, tempThr, Port)
