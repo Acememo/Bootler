@@ -3,7 +3,7 @@ import io
 import matplotlib.pyplot as plt
 import re
 
-def main(lstTemp, lstLux, lstDist, Port):
+def main(lstTemp, lstLux, lstDist, tempThr, Port):
     temp = 0
     lux = 0
     prec = 0
@@ -24,17 +24,16 @@ def main(lstTemp, lstLux, lstDist, Port):
         if tag == 'T':
             pretemp = re.findall(r'\d{1,4}', str(mem))
             temp = int(pretemp[0])
-            lstTemp.append(temp*5/255)
-            if (temp*5/255) > 27:
-                ser.write('3')
-            elif (temp*5/255) == 26:
-                ser.write('6')
-            elif (temp*5/255) == 25:
-            ser.write('6')
+            tempReal = temp*5/255*100
+            lstTemp.append(tempReal)
+            if (tempReal) > tempThr:
+                ser.write(str.encode('3'))
+            else:
+                ser.write(str.encode('6'))
         elif tag == 'L':
             prelux = re.findall(r'\d{1,4}', str(mem))
             lux = int(prelux[0])
-            lstLux.append(lux*5/255*100)
+            lstLux.append(lux*5/255)
         else:
             preprec = re.findall(r'\d{1,4}', str(mem))
             prec = int(preprec[0])
@@ -48,6 +47,7 @@ def main(lstTemp, lstLux, lstDist, Port):
     ser.close()
 
 if __name__ == '__main__':
+    tempThr = 27
     Port = 'COM4'
     lstTemp = []
     lstLux = []
